@@ -1,0 +1,161 @@
+(Запрос) В коде HTML-страницы есть два одинаковых тега с одинаковыми классами, но содержащие разный text, как мне в таком случае вытащить эти тексты?*
+
+
+(Ответ) Если на HTML-странице есть два тега с одинаковыми классами, но содержащие разный текст, вы можете использовать библиотеку BeautifulSoup в Python
+для извлечения текста из каждого тега. Вот пример кода:
+
+
+from bs4 import BeautifulSoup**
+
+# Предположим, у вас есть переменная 'html' с содержимым HTML-страницы
+html = '''
+<html>
+<head>
+<title>Пример</title>
+</head>
+<body>
+<div class="my-class">Текст 1</div>
+<div class="my-class">Текст 2</div>
+</body>
+</html>
+'''
+
+# Создаем объект BeautifulSoup для парсинга HTML
+soup = BeautifulSoup(html, 'html.parser')
+
+# Находим все теги с классом 'my-class'
+tags = soup.find_all(class_="my-class")
+
+# Извлекаем текст из каждого тега
+for tag in tags:
+    text = tag.get_text()
+    print(text)
+    
+    
+
+(Запрос) ResultSet object has no attribute 'text'. You're probably treating a list of elements like a single element. 
+Did you call find_all() when you meant to call find()?
+
+
+
+(Ответ) Ошибка "ResultSet object has no attribute 'text'" возникает, когда вы пытаетесь вызвать метод text на объекте ResultSet, который возвращает метод find_all библиотеки BeautifulSoup.
+Это происходит, потому что метод find_all возвращает список всех элементов на странице, удовлетворяющих заданным параметрам поиска. Вам нужно перебрать каждый элемент в списке и вызвать метод text на каждом отдельно, чтобы извлечь текст из каждого тега.
+Вот пример правильного кода:
+
+
+from bs4 import BeautifulSoup
+import requests
+
+# Отправляем запрос на страницу
+url = 'https://www.example.com'
+response = requests.get(url)
+
+# Создаем объект BeautifulSoup для парсинга HTML
+soup = BeautifulSoup(response.text, 'html.parser')
+
+# Находим все теги <div> с классом "my-class"
+div_tags = soup.find_all('div', class_='my-class')
+
+# Извлекаем текст из каждого тега
+for tag in div_tags:
+    text = tag.text
+    print(text)
+    
+    
+    В этом примере мы используем метод find_all для поиска всех тегов div с классом my-class. Затем мы перебираем список div_tags и вызываем метод text для каждого элемента в списке, чтобы извлечь текст из каждого тега.
+
+
+
+(Запрос) это ничего не изменило
+
+
+
+(Ответ) Приношу извинения за путаницу. Действительно, в моем предыдущем ответе была ошибка. Метод text должен вызываться для каждого элемента Tag внутри ResultSet.
+Вот исправленный пример:
+
+
+from bs4 import BeautifulSoup
+
+# Предположим, у вас есть переменная 'html' с содержимым HTML-страницы
+html = '''
+<html>
+<head>
+<title>Пример</title>
+</head>
+<body>
+<div class="my-class">Текст 1</div>
+<div class="my-class">Текст 2</div>
+</body>
+</html>
+'''
+
+# Создаем объект BeautifulSoup для парсинга HTML
+soup = BeautifulSoup(html, 'html.parser')
+
+# Находим все теги с классом 'my-class'
+tags = soup.find_all(class_="my-class")
+
+# Извлекаем текст из каждого тега
+for tag in tags:
+    text = tag.text
+    print(text)
+
+
+
+(Запрос) это ничего не изменило
+
+
+
+(Ответ) Приношу извинения за путаницу. Действительно, в вашем случае ошибка не связана с вызовом метода text, а скорее с самим парсингом HTML или с выборкой элементов.
+Пожалуйста, убедитесь, что вы используете правильные селекторы для поиска элементов на странице и что HTML-код корректен. Вот пример кода с более точным селектором:
+
+
+from bs4 import BeautifulSoup
+
+# Предположим, у вас есть переменная 'html' с содержимым HTML-страницы
+html = '''
+<html>
+<head>
+<title>Пример</title>
+</head>
+<body>
+<div class="my-class">Текст 1</div>
+<div class="my-class">Текст 2</div>
+</body>
+</html>
+'''
+
+# Создаем объект BeautifulSoup для парсинга HTML
+soup = BeautifulSoup(html, 'html.parser')
+
+# Находим все теги с классом 'my-class'
+tags = soup.select('div.my-class')
+
+# Извлекаем текст из каждого тега
+for tag in tags:
+    text = tag.text
+    print(text)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    
+
+
+
+
